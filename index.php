@@ -3,7 +3,7 @@ session_start();
 require_once "includes/conn.php";
 require_once "includes/sidebar.php";
 
-// TOTAL CARS
+// TOTAL CARS are counted by fetching the total number of records in the 'cars' table using a SQL query. The result is stored in the variable $totalCars.
 $totalCars = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM cars"))['total'];
 
 // AVAILABLE CARS
@@ -21,65 +21,65 @@ $totalTransactions = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as 
 
 <div class="container-fluid">
 
-<div class="row">
+  <div class="row">
 
-  <!-- TOTAL CARS -->
-  <div class="col-lg-3">
-    <div class="card text-white bg-primary mb-3">
-      <div class="card-body">
-        <h5>Total Cars</h5>
-        <h2><?php echo $totalCars; ?></h2>
+    <!-- TOTAL CARS -->
+    <div class="col-lg-3">
+      <div class="card text-white bg-primary mb-3">
+        <div class="card-body">
+          <h5>Total Cars</h5>
+          <h2><?php echo $totalCars; ?></h2>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- AVAILABLE -->
-  <div class="col-lg-3">
-    <div class="card text-white bg-success mb-3">
-      <div class="card-body">
-        <h5>Available Cars</h5>
-        <h2><?php echo $availableCars; ?></h2>
+    <!-- AVAILABLE -->
+    <div class="col-lg-3">
+      <div class="card text-white bg-success mb-3">
+        <div class="card-body">
+          <h5>Available Cars</h5>
+          <h2><?php echo $availableCars; ?></h2>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- RENTED -->
-  <div class="col-lg-3">
-    <div class="card text-white bg-danger mb-3">
-      <div class="card-body">
-        <h5>Rented Cars</h5>
-        <h2><?php echo $rentedCars; ?></h2>
+    <!-- RENTED -->
+    <div class="col-lg-3">
+      <div class="card text-white bg-danger mb-3">
+        <div class="card-body">
+          <h5>Rented Cars</h5>
+          <h2><?php echo $rentedCars; ?></h2>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- CUSTOMERS -->
-  <div class="col-lg-3">
-    <div class="card text-white bg-info mb-3">
-      <div class="card-body">
-        <h5>Customers</h5>
-        <h2><?php echo $totalCustomers; ?></h2>
+    <!-- CUSTOMERS -->
+    <div class="col-lg-3">
+      <div class="card text-white bg-info mb-3">
+        <div class="card-body">
+          <h5>Customers</h5>
+          <h2><?php echo $totalCustomers; ?></h2>
+        </div>
       </div>
     </div>
+
   </div>
 
-</div>
+  <br>
 
-<br>
+  <div class="row">
 
-<div class="row">
-
-  <!-- TRANSACTIONS -->
-  <div class="col-lg-3">
-    <div class="card text-white bg-warning mb-3">
-      <div class="card-body">
-        <h5>Transactions</h5>
-        <h2><?php echo $totalTransactions; ?></h2>
+    <!-- TRANSACTIONS -->
+    <div class="col-lg-3">
+      <div class="card text-white bg-warning mb-3">
+        <div class="card-body">
+          <h5>Transactions</h5>
+          <h2><?php echo $totalTransactions; ?></h2>
+        </div>
       </div>
     </div>
-  </div>
 
-</div>
+  </div>
 
 </div>
 
