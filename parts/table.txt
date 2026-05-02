@@ -1,0 +1,57 @@
+<?php
+$result = mysqli_query($conn, "SELECT * FROM customers ORDER BY customer_id DESC");
+
+
+?>
+
+ <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                     <div class="header-title">
+                        <h4 class="card-title">Customer LIst</h4>
+                     </div>
+                  </div>
+                  <div class="card-body">
+                     <div class="table-responsive">
+                        <table id="datatable" class="table data-table table-striped table-bordered" >
+                           <thead>
+                              <tr>
+                                  <th>ID</th>
+                                 <th>Name</th>
+                                 <th>Phone</th>
+                                 <th>National ID</th>
+                                 <th>Actions</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                            <?php 
+                            $rownumber = 0;
+                              while($row = mysqli_fetch_assoc($result)) { 
+                                $rownumber++;
+                                ?>
+                              <tr>
+                                 
+                                 <td><?php echo $rownumber; ?><?php //echo $row['customer_id']; ?></td>
+                                 <td><?php echo $row['customer_name']; ?></td>
+                                 <td><?php echo $row['phone']; ?></td>
+                                 <td><?php echo $row['national_id']; ?></td>
+                                 <td><a  class="btn btn-warning" href="?edit=<?php echo $row['customer_id']; ?>">Edit</a>
+    
+    <a class="btn btn-danger" href="?delete=<?php echo $row['customer_id']; ?>"
+       onclick="return confirm('Delete this customer?')">
+       Delete
+    </a></td>
+                              </tr>
+                              <?php } ?>
+                           </tbody>
+                           <tfoot>
+                              <tr>
+                                 <th>Name</th>
+                                 <th>Phone</th>
+                                 <th>National ID</th>
+                                 <th>Actions</th>
+                              </tr>
+                           </tfoot>
+                        </table>
+                     </div>
+                  </div>
+               </div>
