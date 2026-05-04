@@ -11,7 +11,6 @@ if (isset($_GET['delete'])) {
 
 // SAVE CAR
 if (isset($_POST['save'])) {
-
   $taariko = $_POST['taariko'];
   $color = $_POST['color'];
   $model = $_POST['model'];
@@ -25,17 +24,14 @@ if (isset($_POST['save'])) {
 
 // FETCH FOR EDIT
 $editData = null;
-
 if (isset($_GET['edit'])) {
   $id = $_GET['edit'];
-
   $result = mysqli_query($conn, "SELECT * FROM cars WHERE car_id=$id");
   $editData = mysqli_fetch_assoc($result);
 }
 
 // UPDATE CAR
 if (isset($_POST['update'])) {
-
   $id = $_POST['id'];
   $taariko = $_POST['taariko'];
   $color = $_POST['color'];
@@ -50,79 +46,68 @@ if (isset($_POST['update'])) {
     status='$status',
     payment='$payment'
     WHERE car_id=$id");
-
-
-
 }
 ?>
 
-<!-- FORM -->
 <div class="container-fluid">
-  <div class="card">
-    <div class="card-body">
 
-      <form method="POST">
+  <!-- 1. ADD BUTTON: Shows only when form is hidden -->
+  <?php if (!isset($_GET['add']) && !$editData) { ?>
+    <a href="?add=1" class="btn btn-primary mb-3">Add New Car</a>
+  <?php } ?>
 
-        <input type="hidden" name="id" value="<?php echo $editData['car_id'] ?? ''; ?>">
-
-        <div class="row">
-
-          <div class="col-lg-6">
-            <label>Taariko</label>
-            <input type="text" name="taariko" class="form-control" value="<?php echo $editData['taariko'] ?? ''; ?>">
+  <!-- 2. FORM: Opens only if 'add' or 'edit' is active -->
+  <?php if (isset($_GET['add']) || $editData) { ?>
+    <div class="card">
+      <div class="card-body">
+        <form method="POST" action="?">
+          <input type="hidden" name="id" value="<?php echo $editData['car_id'] ?? ''; ?>">
+          <div class="row">
+            <div class="col-lg-6">
+              <label>Taariko</label>
+              <input type="text" name="taariko" class="form-control" value="<?php echo $editData['taariko'] ?? ''; ?>">
+            </div>
+            <div class="col-lg-6">
+              <label>Color</label>
+              <input type="text" name="color" class="form-control" value="<?php echo $editData['color'] ?? ''; ?>">
+            </div>
+            <div class="col-lg-6">
+              <label>Model</label>
+              <input type="text" name="model" class="form-control" value="<?php echo $editData['model'] ?? ''; ?>">
+            </div>
+            <div class="col-lg-6">
+              <label>Status</label>
+              <select name="status" class="form-control">
+                <option value="Available" <?php if (($editData['status'] ?? '') == 'Available')
+                  echo 'selected'; ?>>
+                  Available</option>
+                <option value="Rented" <?php if (($editData['status'] ?? '') == 'Rented')
+                  echo 'selected'; ?>>Rented
+                </option>
+              </select>
+            </div>
+            <div class="col-lg-6">
+              <label>Payment</label>
+              <input type="text" name="payment" class="form-control" value="<?php echo $editData['payment'] ?? ''; ?>">
+            </div>
           </div>
+          <br>
+          <?php if ($editData) { ?>
+            <button name="update" class="btn btn-warning">Update Car</button>
+          <?php } else { ?>
+            <button name="save" class="btn btn-primary">Save Car</button>
+          <?php } ?>
 
-          <div class="col-lg-6">
-            <label>Color</label>
-            <input type="text" name="color" class="form-control" value="<?php echo $editData['color'] ?? ''; ?>">
-          </div>
-
-          <div class="col-lg-6">
-            <label>Model</label>
-            <input type="text" name="model" class="form-control" value="<?php echo $editData['model'] ?? ''; ?>">
-          </div>
-
-          <div class="col-lg-6">
-            <label>Status</label>
-            <select name="status" class="form-control">
-
-              <option value="Available" <?php if (($editData['status'] ?? '') == 'Available')
-                echo 'selected'; ?>>
-                Available
-              </option>
-
-              <option value="Rented" <?php if (($editData['status'] ?? '') == 'Rented')
-                echo 'selected'; ?>>
-                Rented
-              </option>
-
-            </select>
-          </div>
-
-          <div class="col-lg-6">
-            <label>Payment</label>
-            <input type="text" name="payment" class="form-control" value="<?php echo $editData['payment'] ?? ''; ?>">
-          </div>
-
-        </div>
-
-        <br>
-
-        <?php if ($editData) { ?>
-          <button name="update" class="btn btn-warning">Update Car</button>
-        <?php } else { ?>
-          <button name="save" class="btn btn-primary">Save Car</button>
-        <?php } ?>
-
-      </form>
+          <a href="?" class="btn btn-secondary">Close</a>
+        </form>
+      </div>
     </div>
-  </div>
+  <?php } ?>
 
-  <!-- TABLE -->
+  <!-- 3. TABLE: Always visible -->
   <?php
   $result = mysqli_query($conn, "SELECT * FROM cars ORDER BY car_id DESC");
   ?>
-
   <div class="card mt-3">
     <div class="card-body">
       <table class="table table-bordered">
@@ -137,7 +122,6 @@ if (isset($_POST['update'])) {
             <th>Actions</th>
           </tr>
         </thead>
-
         <tbody>
           <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
@@ -162,14 +146,11 @@ if (isset($_POST['update'])) {
               <td>
                 <a href="?edit=<?php echo $row['car_id']; ?>" class="btn btn-warning">Edit</a>
                 <a href="?delete=<?php echo $row['car_id']; ?>" class="btn btn-danger"
-                  onclick="return confirm('Delete this car?')">
-                  Delete
-                </a>
+                  onclick="return confirm('Delete this car?')">Delete</a>
               </td>
             </tr>
           <?php } ?>
         </tbody>
-
       </table>
     </div>
   </div>
